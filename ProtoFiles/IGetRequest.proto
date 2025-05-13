@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message IGetRequest {
+    int32 userId = 1;
+    optional int32 chats_limit = 2; // лимит чатов
+    optional int32 messages_in_chat_limit = 3; // лимит сообщений в каждом чате
+}

@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message IAuthResponse {
+    int32 code = 1;
+    int32 userId = 2;
+}
