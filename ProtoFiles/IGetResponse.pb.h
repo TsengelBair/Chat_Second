@@ -599,6 +599,7 @@ class IGetResponse PROTOBUF_FINAL :
   enum : int {
     kChatsFieldNumber = 1,
     kHasMoreChatsFieldNumber = 2,
+    kIsEmptyFieldNumber = 3,
   };
   // repeated .IChat chats = 1;
   int chats_size() const;
@@ -627,6 +628,15 @@ class IGetResponse PROTOBUF_FINAL :
   void _internal_set_has_more_chats(bool value);
   public:
 
+  // bool is_empty = 3;
+  void clear_is_empty();
+  bool is_empty() const;
+  void set_is_empty(bool value);
+  private:
+  bool _internal_is_empty() const;
+  void _internal_set_is_empty(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:IGetResponse)
  private:
   class _Internal;
@@ -636,6 +646,7 @@ class IGetResponse PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::IChat > chats_;
   bool has_more_chats_;
+  bool is_empty_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_IGetResponse_2eproto;
 };
@@ -1138,6 +1149,26 @@ inline void IGetResponse::_internal_set_has_more_chats(bool value) {
 inline void IGetResponse::set_has_more_chats(bool value) {
   _internal_set_has_more_chats(value);
   // @@protoc_insertion_point(field_set:IGetResponse.has_more_chats)
+}
+
+// bool is_empty = 3;
+inline void IGetResponse::clear_is_empty() {
+  is_empty_ = false;
+}
+inline bool IGetResponse::_internal_is_empty() const {
+  return is_empty_;
+}
+inline bool IGetResponse::is_empty() const {
+  // @@protoc_insertion_point(field_get:IGetResponse.is_empty)
+  return _internal_is_empty();
+}
+inline void IGetResponse::_internal_set_is_empty(bool value) {
+  
+  is_empty_ = value;
+}
+inline void IGetResponse::set_is_empty(bool value) {
+  _internal_set_is_empty(value);
+  // @@protoc_insertion_point(field_set:IGetResponse.is_empty)
 }
 
 #ifdef __GNUC__

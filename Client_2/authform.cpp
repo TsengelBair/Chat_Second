@@ -49,6 +49,12 @@ void AuthForm::slotAuthResponseReceived(const QByteArray &data, const ResponseTy
     }
 }
 
+void AuthForm::slotGetDefaultDataResponseReceived(const QByteArray &data)
+{
+    /// создать MainWindow передав туда десерилизованные данные
+    /// для представления данных необходимо предварительно создать структуру для представления этих данных
+}
+
 void AuthForm::createAuthRequest()
 {
     RequestType requestType;

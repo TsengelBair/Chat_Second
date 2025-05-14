@@ -17,4 +17,5 @@ message IChat {
 message IGetResponse {
     repeated IChat chats = 1;
     bool has_more_chats = 2; // флаг, указывающий что есть еще чаты для подгрузки
+    bool is_empty = 3; // флаг, указывающий что нет данных
 }

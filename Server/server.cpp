@@ -136,29 +136,21 @@ void Server::handleGetRequest(const QByteArray &packetData, qintptr socketDescri
 {
     GetRequestBody getReqBody = Serializer::deserializeGetRequest(packetData);
 
+    bool dataForUserIsEmpty = false;
+
     /// получаем список чатов пользователя
     QVector<Chat> chats = DbHandler::getInstance()->loadUserChats(getReqBody.userId, getReqBody.chatsLimit);
     if (chats.empty()) {
-       /// сразу же отправить ответ, что у указанного пользователя нет чатов
-       sendEmptyGetResponse(socketDescriptor);
-       return;
+        dataForUserIsEmpty = true;
+    } else {
+        /// каждый чат заполняем соответствующими сообщениями
+        for (Chat &chat : chats) {
+            chat.messages = DbHandler::getInstance()->loadChatMessages(chat.chatId, getReqBody.messagesInChatLimit);
+        }
     }
 
-    /// каждый чат заполняем соответствующими сообщениями
-    for (Chat &chat : chats) {
-        chat.messages = DbHandler::getInstance()->loadChatMessages(chat.chatId, getReqBody.messagesInChatLimit);
-    }
-
-    QByteArray data = Serializer::serializeGetResponse(chats);
+    QByteArray data = Serializer::serializeGetResponse(chats, dataForUserIsEmpty);
     QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_GET_CHATS);
-
-    sendToClient(packet, socketDescriptor);
-}
-
-void Server::sendEmptyGetResponse(qintptr socketDescriptor)
-{
-    QByteArray data = Serializer::serializeEmptyGetResponse();
-    QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_GET_CHATS_EMPTY);
 
     sendToClient(packet, socketDescriptor);
 }

@@ -102,6 +102,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_IGetResponse_2eproto::offsets[
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::IGetResponse, chats_),
   PROTOBUF_FIELD_OFFSET(::IGetResponse, has_more_chats_),
+  PROTOBUF_FIELD_OFFSET(::IGetResponse, is_empty_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::IChatMessage)},
@@ -121,9 +122,10 @@ const char descriptor_table_protodef_IGetResponse_2eproto[] PROTOBUF_SECTION_VAR
   "ender_name\030\003 \001(\t\022\027\n\017message_content\030\004 \001("
   "\t\022\031\n\021message_timestamp\030\005 \001(\t\"T\n\005IChat\022\017\n"
   "\007chat_id\030\001 \001(\005\022\031\n\021interlocutor_name\030\002 \001("
-  "\t\022\037\n\010messages\030\003 \003(\0132\r.IChatMessage\"=\n\014IG"
+  "\t\022\037\n\010messages\030\003 \003(\0132\r.IChatMessage\"O\n\014IG"
   "etResponse\022\025\n\005chats\030\001 \003(\0132\006.IChat\022\026\n\016has"
-  "_more_chats\030\002 \001(\010b\006proto3"
+  "_more_chats\030\002 \001(\010\022\020\n\010is_empty\030\003 \001(\010b\006pro"
+  "to3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_IGetResponse_2eproto_deps[1] = {
 };
@@ -134,7 +136,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_IGe
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_IGetResponse_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_IGetResponse_2eproto = {
-  false, false, descriptor_table_protodef_IGetResponse_2eproto, "IGetResponse.proto", 305,
+  false, false, descriptor_table_protodef_IGetResponse_2eproto, "IGetResponse.proto", 323,
   &descriptor_table_IGetResponse_2eproto_once, descriptor_table_IGetResponse_2eproto_sccs, descriptor_table_IGetResponse_2eproto_deps, 3, 0,
   schemas, file_default_instances, TableStruct_IGetResponse_2eproto::offsets,
   file_level_metadata_IGetResponse_2eproto, 3, file_level_enum_descriptors_IGetResponse_2eproto, file_level_service_descriptors_IGetResponse_2eproto,
@@ -776,13 +778,17 @@ IGetResponse::IGetResponse(const IGetResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       chats_(from.chats_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  has_more_chats_ = from.has_more_chats_;
+  ::memcpy(&has_more_chats_, &from.has_more_chats_,
+    static_cast<size_t>(reinterpret_cast<char*>(&is_empty_) -
+    reinterpret_cast<char*>(&has_more_chats_)) + sizeof(is_empty_));
   // @@protoc_insertion_point(copy_constructor:IGetResponse)
 }
 
 void IGetResponse::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_IGetResponse_IGetResponse_2eproto.base);
-  has_more_chats_ = false;
+  ::memset(&has_more_chats_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&is_empty_) -
+      reinterpret_cast<char*>(&has_more_chats_)) + sizeof(is_empty_));
 }
 
 IGetResponse::~IGetResponse() {
@@ -817,7 +823,9 @@ void IGetResponse::Clear() {
   (void) cached_has_bits;
 
   chats_.Clear();
-  has_more_chats_ = false;
+  ::memset(&has_more_chats_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&is_empty_) -
+      reinterpret_cast<char*>(&has_more_chats_)) + sizeof(is_empty_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -845,6 +853,13 @@ const char* IGetResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_I
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           has_more_chats_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // bool is_empty = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          is_empty_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -890,6 +905,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(2, this->_internal_has_more_chats(), target);
   }
 
+  // bool is_empty = 3;
+  if (this->is_empty() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(3, this->_internal_is_empty(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -915,6 +936,11 @@ size_t IGetResponse::ByteSizeLong() const {
 
   // bool has_more_chats = 2;
   if (this->has_more_chats() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // bool is_empty = 3;
+  if (this->is_empty() != 0) {
     total_size += 1 + 1;
   }
 
@@ -953,6 +979,9 @@ void IGetResponse::MergeFrom(const IGetResponse& from) {
   if (from.has_more_chats() != 0) {
     _internal_set_has_more_chats(from._internal_has_more_chats());
   }
+  if (from.is_empty() != 0) {
+    _internal_set_is_empty(from._internal_is_empty());
+  }
 }
 
 void IGetResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -977,7 +1006,12 @@ void IGetResponse::InternalSwap(IGetResponse* other) {
   using std::swap;
   _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   chats_.InternalSwap(&other->chats_);
-  swap(has_more_chats_, other->has_more_chats_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(IGetResponse, is_empty_)
+      + sizeof(IGetResponse::is_empty_)
+      - PROTOBUF_FIELD_OFFSET(IGetResponse, has_more_chats_)>(
+          reinterpret_cast<char*>(&has_more_chats_),
+          reinterpret_cast<char*>(&other->has_more_chats_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata IGetResponse::GetMetadata() const {

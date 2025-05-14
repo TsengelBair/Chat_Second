@@ -7,7 +7,6 @@
 #include "../ProtoFiles/IAuthResponse.pb.h"
 #include "../ProtoFiles/IGetRequest.pb.h"
 #include "../ProtoFiles/IGetResponse.pb.h"
-#include "../ProtoFiles/IGetResponseEmpty.pb.h"
 #include "../ProtoFiles/ISearchRequest.pb.h"
 #include "../ProtoFiles/ISearchResponse.pb.h"
 
@@ -72,25 +71,29 @@ QString Serializer::deserializeFindUserRequest(const QByteArray &packetData)
     return loginToFind;
 }
 
-QByteArray Serializer::serializeGetResponse(QVector<Chat> &chats)
+QByteArray Serializer::serializeGetResponse(QVector<Chat> &chats, bool isEmpty)
 {
     IGetResponse response;
     response.set_has_more_chats(false); /// пока что пусть будет по умолчанию false
 
-    for (const Chat &chat : chats) {
-        IChat *protoChat = response.add_chats();
-        protoChat->set_chat_id(chat.chatId);
-        protoChat->set_interlocutor_name(chat.interlocutorName.toStdString());
+    if (!isEmpty) {
+        for (const Chat &chat : chats) {
+            IChat *protoChat = response.add_chats();
+            protoChat->set_chat_id(chat.chatId);
+            protoChat->set_interlocutor_name(chat.interlocutorName.toStdString());
 
-        for (const Message &message : chat.messages) {
-            IChatMessage *protoMessage = protoChat->add_messages();
-            protoMessage->set_message_id(message.id);
-            protoMessage->set_sender_id(message.senderId);
-            protoMessage->set_sender_name(message.senderName.toStdString());
-            protoMessage->set_message_content(message.content.toStdString());
-            protoMessage->set_message_timestamp(message.timestamp.toString(Qt::ISODate).toStdString());
+            for (const Message &message : chat.messages) {
+                IChatMessage *protoMessage = protoChat->add_messages();
+                protoMessage->set_message_id(message.id);
+                protoMessage->set_sender_id(message.senderId);
+                protoMessage->set_sender_name(message.senderName.toStdString());
+                protoMessage->set_message_content(message.content.toStdString());
+                protoMessage->set_message_timestamp(message.timestamp.toString(Qt::ISODate).toStdString());
+            }
         }
     }
+
+    response.set_is_empty(isEmpty);
 
     /// Сериализация ответа
     std::string serializedData;
@@ -100,21 +103,6 @@ QByteArray Serializer::serializeGetResponse(QVector<Chat> &chats)
     }
 
     /// Отправка сериализованного ответа клиенту
-    QByteArray data(serializedData.c_str(), serializedData.size());
-    return data;
-}
-
-QByteArray Serializer::serializeEmptyGetResponse()
-{
-    IGetResponseEmpty epmtyResponse;
-    epmtyResponse.set_msg("Нет данных");
-
-    std::string serializedData;
-    if (!epmtyResponse.SerializeToString(&serializedData)) {
-        qDebug() << "Error while serialize Empty Get Response";
-        return QByteArray();
-    }
-
     QByteArray data(serializedData.c_str(), serializedData.size());
     return data;
 }
