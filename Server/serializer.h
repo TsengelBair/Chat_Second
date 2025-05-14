@@ -22,8 +22,7 @@ public:
     Serializer& operator=(const Serializer&) = delete;
 
     static QByteArray serializeAuthResponse(IAuthResponse* response);
-    static QByteArray serializeGetResponse(QVector<Chat> &chats);
-    static QByteArray serializeEmptyGetResponse();
+    static QByteArray serializeGetResponse(QVector<Chat> &chats, bool isEmpty);
     static QByteArray serializeFindedUsersResponse(QList<QString> foundUsers);
 
     static QPair<QString, QString> deserializeAuthRequest(const QByteArray &packetData);

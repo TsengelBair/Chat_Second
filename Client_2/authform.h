@@ -7,6 +7,7 @@
 #include "types.h"
 
 class NetworkManager;
+class MainWindow;
 
 namespace Ui {
 class AuthForm;
@@ -23,19 +24,16 @@ public:
 public slots:
     void slotAuthResponseReceived(const QByteArray &data, const ResponseType &responseType);
 
-/// как понимаю, передача параметров по ссылке в сигналы не рекомендуется (компилятор все равно попытается скопировать)
-/// потом протестить через дебаг и анализатор
 signals:
     void signalSendAuthRequest(QByteArray &data, RequestType &requestType);
-    void signalSendGetDefaultDataRequest(QByteArray &data, RequestType &requestType);
 
 private slots:
     void createAuthRequest();
-    void createGetDefaultDataRequest(const int userId);
 
 private:
     Ui::AuthForm *ui;
     QSharedPointer<NetworkManager> m_networkManager;
+    QSharedPointer<MainWindow> mainWindow;
 };
 
 #endif // AUTHFORM_H

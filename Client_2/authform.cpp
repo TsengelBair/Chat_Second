@@ -4,6 +4,7 @@
 #include "ui_authform.h"
 #include "networkmanager.h"
 #include "serializer.h"
+#include "mainwindow.h"
 
 AuthForm::AuthForm(QSharedPointer<NetworkManager> networkManager, QWidget *parent) :
     QWidget(parent),
@@ -16,8 +17,6 @@ AuthForm::AuthForm(QSharedPointer<NetworkManager> networkManager, QWidget *paren
     connect(ui->pushButton_2, &QPushButton::clicked, this, &AuthForm::createAuthRequest, Qt::UniqueConnection);
 
     connect(this, &AuthForm::signalSendAuthRequest, m_networkManager.data(), &NetworkManager::slotSendPacket, Qt::UniqueConnection);
-    connect(this, &AuthForm::signalSendGetDefaultDataRequest, m_networkManager.data(),
-                               &NetworkManager::slotSendPacket, Qt::UniqueConnection);
 }
 
 AuthForm::~AuthForm()
@@ -35,7 +34,11 @@ void AuthForm::slotAuthResponseReceived(const QByteArray &data, const ResponseTy
     if (serverResponseCode == 409) {
         QMessageBox::warning(this, "Предупреждение", "Registration failed: user already exists");
     } else if (serverResponseCode == 200) {
-        createGetDefaultDataRequest(userId);
+        /// создать объект MainWindow, который в конструкоре вып-т get запрос и там же вызовет метод show
+        /// также необходимо передать id пользователя
+        if (!mainWindow) {
+            mainWindow.reset(new MainWindow(m_networkManager, userId));
+        }
         return;
     } else if (serverResponseCode == 500) {
         QMessageBox::warning(this, "Предупреждение", "Registration failed: server error");
@@ -44,15 +47,11 @@ void AuthForm::slotAuthResponseReceived(const QByteArray &data, const ResponseTy
     } else if (serverResponseCode == 403) {
         QMessageBox::warning(this, "Предупреждение", "Login failed: invalid password");
     } else if (serverResponseCode == 201) {
-        createGetDefaultDataRequest(userId);
+        if (!mainWindow) {
+            mainWindow.reset(new MainWindow(m_networkManager, userId));
+        }
         return;
     }
-}
-
-void AuthForm::slotGetDefaultDataResponseReceived(const QByteArray &data)
-{
-    /// создать MainWindow передав туда десерилизованные данные
-    /// для представления данных необходимо предварительно создать структуру для представления этих данных
 }
 
 void AuthForm::createAuthRequest()
@@ -69,12 +68,4 @@ void AuthForm::createAuthRequest()
 
     QByteArray data = Serializer::serializeAuthReq(login, password);
     emit signalSendAuthRequest(data, requestType);
-}
-
-void AuthForm::createGetDefaultDataRequest(const int userId)
-{
-    RequestType requestType = RequestType::REQUEST_GET_DEFAULT_DATA;
-    QByteArray data = Serializer::serializeGetReq(userId);
-
-    emit signalSendGetDefaultDataRequest(data, requestType);
 }
