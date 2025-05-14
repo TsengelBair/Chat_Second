@@ -15,7 +15,7 @@ public:
     ~NetworkManager();
 
     bool connectToServer(const QString& host, quint16 port);
-    void sendPacketToServer(const QByteArray &packet, const RequestType &reqType);
+    QSharedPointer<QTcpSocket> getSocket() const;
 
 signals:
     /// param2 необходим для идентификации запроса, login || registr
@@ -24,6 +24,10 @@ signals:
     void signalGetDefaultDataResponseReceived(const QByteArray &data);
     /// при вводе логина в строку поиска, возвращаем список пользователей с похожим логином
     void signalGetFoundedUsersResponseReceived(const QByteArray &data);
+
+public slots:
+    /// классы отправляют сигнал с серилизованными данными и типом запроса в этот слот
+    void slotSendPacket(const QByteArray &data, const RequestType &reqType);
 
 private slots:
     void onReadyRead();

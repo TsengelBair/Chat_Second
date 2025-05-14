@@ -1,5 +1,6 @@
 #include "networkmanager.h"
 #include "validator.h"
+#include "packetbuilder.h"
 
 NetworkManager::NetworkManager(QObject *parent) :QObject(parent)
 {
@@ -17,6 +18,23 @@ bool NetworkManager::connectToServer(const QString &host, quint16 port)
     m_socket->connectToHost(host, port);
     return m_socket->waitForConnected(3000); /// это хз зачем
 }
+
+QSharedPointer<QTcpSocket> NetworkManager::getSocket() const
+{
+    return m_socket;
+}
+
+void NetworkManager::slotSendPacket(const QByteArray &data, const RequestType &reqType)
+{
+    if (!m_socket) {
+        qDebug() << "Ошибка с сокетом при попытке отправить запрос с клиента";
+        return;
+    }
+
+    QByteArray packet = PacketBuilder::createPacketToSend(data, reqType);
+    m_socket->write(packet);
+}
+
 
 void NetworkManager::onReadyRead()
 {

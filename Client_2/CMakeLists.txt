@@ -30,6 +30,13 @@ set(PROJECT_SOURCES
         types.h
         validator.h
         validator.cpp
+        packetbuilder.h
+        packetbuilder.cpp
+        authform.h
+        authform.cpp
+        authform.ui
+        serializer.h
+        serializer.cpp
         ${PROTO_FILES}
 )
 
