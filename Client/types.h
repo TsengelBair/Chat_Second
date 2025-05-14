@@ -7,7 +7,7 @@ enum RequestType : uint8_t {
     LOGIN = 0,
     REGISTER = 1,
     GET_CHATS = 2,
-    FIND_USER = 3,
+    FIND_USERS = 3,
     SEND_MESSAGE = 4,
     MAX_VALUE = 127
 };

@@ -4,6 +4,7 @@
 #include "../ProtoFiles/IAuthRequest.pb.h"
 #include "../ProtoFiles/IAuthResponse.pb.h"
 #include "../ProtoFiles/IGetRequest.pb.h"
+#include "../ProtoFiles/ISearchRequest.pb.h"
 
 QPair<int, int> Serializer::deserializeAuthResponse(const QByteArray &data)
 {
@@ -42,6 +43,20 @@ QByteArray Serializer::serializeAuthReq(const QString &login, const QString &pas
 
     request.set_login(login.toStdString());
     request.set_password(password.toStdString());
+
+    std::string serialized_data;
+    if (!request.SerializeToString(&serialized_data)){
+        qDebug() << "Error while serialize";
+    }
+
+    QByteArray data(serialized_data.c_str(), serialized_data.size());
+    return data;
+}
+
+QByteArray Serializer::serializeSearchReq(const QString &login)
+{
+    ISearchRequest request;
+    request.set_login(login.toStdString());
 
     std::string serialized_data;
     if (!request.SerializeToString(&serialized_data)){

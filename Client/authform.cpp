@@ -13,8 +13,8 @@ AuthForm::AuthForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_socket = new QTcpSocket(this);
-    connect(m_socket, &QTcpSocket::readyRead, this, &AuthForm::handleIncommingDataFromServer);
+    m_socket.reset(new QTcpSocket());
+    connect(m_socket.data(), &QTcpSocket::readyRead, this, &AuthForm::handleIncommingDataFromServer);
 
     connectToServer();
 
@@ -53,8 +53,12 @@ void AuthForm::handleIncommingDataFromServer()
         if (responseType == ResponseType::RESPONSE_LOGIN || responseType == ResponseType::RESPONSE_REGISTER) {
             handleAuthResponse(packetReceived.mid(Validator::headerSize), responseType);
         } else if (responseType == ResponseType::RESPONSE_GET_CHATS_EMPTY) {
-            mainWindow.reset(new MainWindow());
-            mainWindow->show();
+            if (!mainWindow) {
+                mainWindow.reset(new MainWindow(m_socket));
+                mainWindow->show();
+
+                this->hide();
+            }
         }
     }
 }

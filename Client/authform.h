@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTcpSocket>
 #include <QScopedPointer>
+#include <QSharedPointer>
 
 #include "types.h"
 
@@ -32,7 +33,7 @@ private:
 
 private:
     Ui::AuthForm *ui;
-    QTcpSocket* m_socket;
+    QSharedPointer<QTcpSocket> m_socket;
     QScopedPointer<MainWindow> mainWindow;
 };
 
