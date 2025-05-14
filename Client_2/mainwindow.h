@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "types.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -16,6 +18,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QSharedPointer<NetworkManager> networkManager, int userId, QWidget *parent = nullptr);
     ~MainWindow();
+
+signals:
+    void signalSendGetDefaultDataRequest(QByteArray &data, RequestType &requestType);
+
+public slots:
+    void slotGetDefaultDataResponseReceived(const QByteArray &data, const ResponseType &responseType);
+
+private slots:
+    void createGetDefaultDataRequest();
 
 private:
     Ui::MainWindow *ui;

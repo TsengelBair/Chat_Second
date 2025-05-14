@@ -21,6 +21,11 @@ int main(int argc, char *argv[])
     QSharedPointer<AuthForm> authForm(new AuthForm(networkManager));
     authForm->show();
 
+    /// по идее можно и из класса AuthForm вызывать hide()
+    QObject::connect(authForm.data(), &AuthForm::signalSuccessAuth, [&authForm](){
+        authForm->hide();
+    });
+
     QObject::connect(networkManager.data(), &NetworkManager::signalAuthResponseReceived,
              authForm.data(), &AuthForm::slotAuthResponseReceived, Qt::UniqueConnection);
 

@@ -21,11 +21,12 @@ public:
     explicit AuthForm(QSharedPointer<NetworkManager> networkManager, QWidget *parent = nullptr);
     ~AuthForm();
 
-public slots:
-    void slotAuthResponseReceived(const QByteArray &data, const ResponseType &responseType);
-
 signals:
     void signalSendAuthRequest(QByteArray &data, RequestType &requestType);
+    void signalSuccessAuth();
+
+public slots:
+    void slotAuthResponseReceived(const QByteArray &data, const ResponseType &responseType);
 
 private slots:
     void createAuthRequest();
