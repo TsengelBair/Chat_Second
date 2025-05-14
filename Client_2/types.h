@@ -1,0 +1,22 @@
+#ifndef TYPES_H
+#define TYPES_H
+
+#include <iostream>
+
+enum RequestType : uint8_t {
+    REQUEST_LOGIN = 0,
+    REQUEST_REGISTER = 1,
+    REQUEST_GET_DEFAULT_DATA = 2,
+    REQUEST_FIND_USERS = 3,
+    /// REQUEST_MAX_VALUE = 127
+};
+
+enum ResponseType : uint8_t {
+    RESPONSE_LOGIN = 128,
+    RESPONSE_REGISTER = 129,
+    RESPONSE_GET_DEFAULT_DATA = 130,
+    RESPONSE_FIND_USERS = 131,
+    /// RESPONSE_MAX_VALUE = 255
+};
+
+#endif // TYPES_H
