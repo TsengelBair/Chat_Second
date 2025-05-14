@@ -14,6 +14,8 @@ public:
     Serializer& operator=(const Serializer&) = delete;
 
     static QPair<int, int> deserializeAuthResponse(const QByteArray &data);
+    static QList<QString> deserializeFoundUsersResponse(const QByteArray &data);
+
     static QByteArray serializeGetReq(const int userId);
     static QByteArray serializeAuthReq(const QString &login, const QString &password);
     static QByteArray serializeSearchReq(const QString &login);

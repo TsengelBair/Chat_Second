@@ -5,6 +5,7 @@
 #include "../ProtoFiles/IAuthResponse.pb.h"
 #include "../ProtoFiles/IGetRequest.pb.h"
 #include "../ProtoFiles/ISearchRequest.pb.h"
+#include "../ProtoFiles/ISearchResponse.pb.h"
 
 QPair<int, int> Serializer::deserializeAuthResponse(const QByteArray &data)
 {
@@ -18,6 +19,30 @@ QPair<int, int> Serializer::deserializeAuthResponse(const QByteArray &data)
     int userId = response.userid();
 
     return qMakePair(serverResponseCode, userId);
+}
+
+QList<QString> Serializer::deserializeFoundUsersResponse(const QByteArray &data)
+{
+    ISearchResponse response;
+
+    if (!response.ParseFromArray(data.constData(), data.size())) {
+        qWarning() << "Failed to parse ISearchResponse";
+        return QList<QString>();
+    }
+
+    if (response.is_empty()) {
+        qDebug() << "No users found (empty flag set)";
+        return QList<QString>();
+    }
+
+    QList<QString> result;
+
+    const auto& logins = response.find_logins();
+    for (const auto& login : logins) {
+        result.append(QString::fromStdString(login));
+    }
+
+    return result;
 }
 
 QByteArray Serializer::serializeGetReq(const int userId)

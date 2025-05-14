@@ -20,8 +20,12 @@ public:
     explicit MainWindow(QSharedPointer<QTcpSocket> socket, QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void handleUsersFound(const QList<QString> &foundUsers);
+
 private slots:
     void sendSearchRequest();
+//    void handleUsersFound(const QList<QString> &foundUsers);
 
 private:
     Ui::MainWindow *ui;

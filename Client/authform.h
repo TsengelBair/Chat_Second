@@ -22,6 +22,9 @@ public:
     explicit AuthForm(QWidget *parent = nullptr);
     ~AuthForm();
 
+signals:
+    void signalFoundUsers(const QList<QString> &foundUsers);
+
 private slots:
     void handleIncommingDataFromServer();
     void handleAuthResponse(const QByteArray &data, const ResponseType &responseType);

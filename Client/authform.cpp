@@ -55,10 +55,15 @@ void AuthForm::handleIncommingDataFromServer()
         } else if (responseType == ResponseType::RESPONSE_GET_CHATS_EMPTY) {
             if (!mainWindow) {
                 mainWindow.reset(new MainWindow(m_socket));
-                mainWindow->show();
+                connect(this, &AuthForm::signalFoundUsers, mainWindow.data(), &MainWindow::handleUsersFound);
 
+                mainWindow->show();
                 this->hide();
             }
+            /// пока хардкодом, в будущем вынести handleIncommingDataFromServer в соответствующий класс
+        } else if (responseType == ResponseType::RESPONSE_FIND_USERS && mainWindow) {
+            QList<QString> foundUsers = Serializer::deserializeFoundUsersResponse(packetReceived.mid(Validator::headerSize));
+            emit signalFoundUsers(foundUsers);
         }
     }
 }

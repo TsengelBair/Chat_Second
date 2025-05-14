@@ -37,3 +37,10 @@ void MainWindow::sendSearchRequest()
     m_socket.data()->write(packet);
 }
 
+void MainWindow::handleUsersFound(const QList<QString> &foundUsers)
+{
+    for (const auto &user : foundUsers) {
+        ui->listWidget->addItem(user);
+    }
+}
+
