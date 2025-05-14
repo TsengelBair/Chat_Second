@@ -20,6 +20,9 @@ public:
     explicit AuthForm(QSharedPointer<NetworkManager> networkManager, QWidget *parent = nullptr);
     ~AuthForm();
 
+public slots:
+    void slotAuthResponseReceived(const QByteArray &data, const ResponseType &responseType);
+
 /// как понимаю, передача параметров по ссылке в сигналы не рекомендуется (компилятор все равно попытается скопировать)
 /// потом протестить через дебаг и анализатор
 signals:

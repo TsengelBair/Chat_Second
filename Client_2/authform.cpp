@@ -21,6 +21,11 @@ AuthForm::~AuthForm()
     delete ui;
 }
 
+void AuthForm::slotAuthResponseReceived(const QByteArray &data, const ResponseType &responseType)
+{
+    qDebug() << "Получен ответ от сервера";
+}
+
 void AuthForm::sendAuthRequest()
 {
     RequestType requestType;
