@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message ISearchResponse {
+    repeated string find_logins = 1;
+    bool is_empty = 2; // чтобы не писать отдельный прото файл когда данных нет, т.к. серилизовать пустой массив невозможно
+}

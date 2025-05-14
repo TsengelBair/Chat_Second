@@ -33,6 +33,7 @@ void MainWindow::sendSearchRequest()
 
     QByteArray data = Serializer::serializeSearchReq(loginToSearch);
     QByteArray packet = PacketBuilder::createPacketToSend(data, RequestType::FIND_USERS);
+
     m_socket.data()->write(packet);
 }
 

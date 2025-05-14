@@ -74,8 +74,27 @@ void Server::handleIncommingDataFromClient()
         handleAuthRequest(packetReceived.mid(Validator::headerSize), reqType, descriptor);
     } else if (reqType == RequestType::GET_CHATS) {
         handleGetRequest(packetReceived.mid(Validator::headerSize), descriptor);
+    } else if (reqType == RequestType::FIND_USERS) {
+        handleFindUsersRequest(packetReceived.mid(Validator::headerSize), descriptor);
     }
 }
+
+void Server::handleFindUsersRequest(const QByteArray &packetData, qintptr socketDescriptor)
+{
+    QString loginToFind = Serializer::deserializeFindUserRequest(packetData);
+    if (loginToFind.isEmpty()) {
+        qDebug() << "Передан пустой логин";
+        return;
+    }
+
+    QList<QString> usersWithSimilarLogin = DbHandler::getInstance()->findUsersWithSimilarLogin(loginToFind);
+
+    QByteArray data = Serializer::serializeFindedUsersResponse(usersWithSimilarLogin);
+    QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_FIND_USERS);
+
+    sendToClient(packet, socketDescriptor);
+}
+
 
 void Server::handleAuthRequest(const QByteArray &packetData, const RequestType &reqType, qintptr socketDescriptor)
 {

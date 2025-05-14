@@ -263,3 +263,29 @@ QVector<Message> DbHandler::loadChatMessages(int chatId, int limit)
 
     return messages;
 }
+
+QList<QString> DbHandler::findUsersWithSimilarLogin(const QString &prefix)
+{
+    QList<QString> users;
+
+    QSqlQuery query;
+    query.prepare(R"(
+        SELECT login FROM users
+        WHERE login LIKE :pattern || '%'
+        ORDER BY login
+        LIMIT 50
+    )");
+
+    query.bindValue(":pattern", prefix);
+
+    if (!query.exec()) {
+        qWarning() << "Search query failed:" << query.lastError().text();
+        return users;
+    }
+
+    while (query.next()) {
+        users.append(query.value("login").toString());
+    }
+
+    return users;
+}

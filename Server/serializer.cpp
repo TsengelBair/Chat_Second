@@ -8,6 +8,9 @@
 #include "../ProtoFiles/IGetRequest.pb.h"
 #include "../ProtoFiles/IGetResponse.pb.h"
 #include "../ProtoFiles/IGetResponseEmpty.pb.h"
+#include "../ProtoFiles/ISearchRequest.pb.h"
+#include "../ProtoFiles/ISearchResponse.pb.h"
+
 
 QByteArray Serializer::serializeAuthResponse(IAuthResponse *response)
 {
@@ -57,6 +60,18 @@ GetRequestBody Serializer::deserializeGetRequest(const QByteArray &packetData)
     return getRequest;
 }
 
+QString Serializer::deserializeFindUserRequest(const QByteArray &packetData)
+{
+    ISearchRequest searchReq;
+    if (!searchReq.ParseFromString(packetData.toStdString())) {
+        qDebug() << "Error while deserialize auth request";
+        return QString();
+    }
+
+    QString loginToFind = QString::fromStdString(searchReq.login());
+    return loginToFind;
+}
+
 QByteArray Serializer::serializeGetResponse(QVector<Chat> &chats)
 {
     IGetResponse response;
@@ -103,3 +118,18 @@ QByteArray Serializer::serializeEmptyGetResponse()
     QByteArray data(serializedData.c_str(), serializedData.size());
     return data;
 }
+
+QByteArray Serializer::serializeFindedUsersResponse(QList<QString> foundUsers)
+{
+    ISearchResponse response;
+
+    for (const QString& user : foundUsers) {
+        response.add_find_logins(user.toStdString());
+    }
+
+    response.set_is_empty(foundUsers.empty());
+
+    std::string serializedStr = response.SerializeAsString();
+    return QByteArray(serializedStr.data(), static_cast<int>(serializedStr.size()));
+}
+

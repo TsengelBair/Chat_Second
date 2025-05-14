@@ -19,6 +19,7 @@ private slots:
     void handleIncommingDataFromClient();
     void handleAuthRequest(const QByteArray &packetData, const RequestType &reqType, qintptr socketDescriptor);
     void handleGetRequest(const QByteArray &packetData, qintptr socketDescriptor);
+    void handleFindUsersRequest(const QByteArray &packetData, qintptr socketDescriptor);
     void sendEmptyGetResponse(qintptr socketDescriptor);
     void sendToClient(const QByteArray &packet, qintptr socketDescriptor);
 

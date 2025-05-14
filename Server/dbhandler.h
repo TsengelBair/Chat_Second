@@ -44,6 +44,7 @@ public:
 
     QVector<Chat> loadUserChats(int userId, int limit);
     QVector<Message> loadChatMessages(int chatId, int limit);
+    QList<QString> findUsersWithSimilarLogin(const QString &loginToFind);
 };
 
 

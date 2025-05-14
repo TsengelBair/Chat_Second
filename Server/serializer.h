@@ -22,10 +22,13 @@ public:
     Serializer& operator=(const Serializer&) = delete;
 
     static QByteArray serializeAuthResponse(IAuthResponse* response);
-    static QPair<QString, QString> deserializeAuthRequest(const QByteArray &packetData);
-    static GetRequestBody deserializeGetRequest(const QByteArray &packetData);
     static QByteArray serializeGetResponse(QVector<Chat> &chats);
     static QByteArray serializeEmptyGetResponse();
+    static QByteArray serializeFindedUsersResponse(QList<QString> foundUsers);
+
+    static QPair<QString, QString> deserializeAuthRequest(const QByteArray &packetData);
+    static GetRequestBody deserializeGetRequest(const QByteArray &packetData);
+    static QString deserializeFindUserRequest(const QByteArray &packetData);
 };
 
 #endif // SERIALIZER_H
