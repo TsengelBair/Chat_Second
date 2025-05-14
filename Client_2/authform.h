@@ -27,9 +27,11 @@ public slots:
 /// потом протестить через дебаг и анализатор
 signals:
     void signalSendAuthRequest(QByteArray &data, RequestType &requestType);
+    void signalSendGetDefaultDataRequest(QByteArray &data, RequestType &requestType);
 
 private slots:
-    void sendAuthRequest();
+    void createAuthRequest();
+    void createGetDefaultDataRequest(const int userId);
 
 private:
     Ui::AuthForm *ui;

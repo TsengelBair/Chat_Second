@@ -21,7 +21,8 @@ int main(int argc, char *argv[])
     QSharedPointer<AuthForm> authForm(new AuthForm(networkManager));
     authForm->show();
 
-    QObject::connect(networkManager.data(), &NetworkManager::signalAuthResponseReceived, authForm.data(), &AuthForm::slotAuthResponseReceived);
+    QObject::connect(networkManager.data(), &NetworkManager::signalAuthResponseReceived,
+             authForm.data(), &AuthForm::slotAuthResponseReceived, Qt::UniqueConnection);
 
     return a.exec();
 }

@@ -151,6 +151,8 @@ void Server::handleGetRequest(const QByteArray &packetData, qintptr socketDescri
 
     QByteArray data = Serializer::serializeGetResponse(chats);
     QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_GET_CHATS);
+
+    sendToClient(packet, socketDescriptor);
 }
 
 void Server::sendEmptyGetResponse(qintptr socketDescriptor)
