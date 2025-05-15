@@ -4,21 +4,19 @@
 #include <iostream>
 
 enum RequestType : uint8_t {
-    LOGIN = 0,
-    REGISTER = 1,
-    GET_CHATS = 2,
-    FIND_USERS = 3,
-    SEND_MESSAGE = 4,
-    /// MAX_VALUE = 127
+    REQUEST_LOGIN = 0,
+    REQUEST_REGISTER = 1,
+    REQUEST_GET_DEFAULT_DATA = 2,
+    REQUEST_FIND_USERS = 3,
+    /// REQUEST_MAX_VALUE = 127
 };
 
 enum ResponseType : uint8_t {
     RESPONSE_LOGIN = 128,
     RESPONSE_REGISTER = 129,
-    RESPONSE_GET_CHATS = 130,
+    RESPONSE_GET_DEFAULT_DATA = 130,
     RESPONSE_FIND_USERS = 131,
-    RESPONSE_SEND_MESSAGE = 132,
-    /// MAX_VALUE = 255
+    /// RESPONSE_MAX_VALUE = 255
 };
 
 #endif // TYPES_H

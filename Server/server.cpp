@@ -70,11 +70,11 @@ void Server::handleIncommingDataFromClient()
 
     /// извлекаем тип запроса
     RequestType reqType = Validator::getRequestType(packetReceived);
-    if (reqType == RequestType::LOGIN || reqType == RequestType::REGISTER) {
+    if (reqType == RequestType::REQUEST_LOGIN || reqType == RequestType::REQUEST_REGISTER) {
         handleAuthRequest(packetReceived.mid(Validator::headerSize), reqType, descriptor);
-    } else if (reqType == RequestType::GET_CHATS) {
+    } else if (reqType == RequestType::REQUEST_GET_DEFAULT_DATA) {
         handleGetRequest(packetReceived.mid(Validator::headerSize), descriptor);
-    } else if (reqType == RequestType::FIND_USERS) {
+    } else if (reqType == RequestType::REQUEST_FIND_USERS) {
         handleFindUsersRequest(packetReceived.mid(Validator::headerSize), descriptor);
     }
 }
@@ -111,12 +111,12 @@ void Server::handleAuthRequest(const QByteArray &packetData, const RequestType &
     ResponseType responseType; /// тип ответа, который положим в шестой байт tcp пакета
 
     switch (reqType) {
-        case RequestType::REGISTER:
+        case RequestType::REQUEST_REGISTER:
             handleRegistration(login, password, &response);
             responseType = RESPONSE_REGISTER;
             break;
 
-        case RequestType::LOGIN:
+        case RequestType::REQUEST_LOGIN:
             handleLogin(login, password, &response);
             responseType = RESPONSE_LOGIN;
             break;
@@ -150,7 +150,7 @@ void Server::handleGetRequest(const QByteArray &packetData, qintptr socketDescri
     }
 
     QByteArray data = Serializer::serializeGetResponse(chats, dataForUserIsEmpty);
-    QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_GET_CHATS);
+    QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_GET_DEFAULT_DATA);
 
     sendToClient(packet, socketDescriptor);
 }
