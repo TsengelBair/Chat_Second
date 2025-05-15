@@ -1,6 +1,11 @@
 syntax = "proto3";
 
+message User {
+    int32 user_id = 1;
+    string login = 2;
+}
+
 message ISearchResponse {
-    repeated string find_logins = 1;
-    bool is_empty = 2; // чтобы не писать отдельный прото файл когда данных нет, т.к. серилизовать пустой массив невозможно
+    repeated User found_users = 1;
+    bool is_empty = 2;
 }

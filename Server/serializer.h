@@ -23,7 +23,7 @@ public:
 
     static QByteArray serializeAuthResponse(IAuthResponse* response);
     static QByteArray serializeGetResponse(QVector<Chat> &chats, bool isEmpty);
-    static QByteArray serializeFindedUsersResponse(QList<QString> foundUsers);
+    static QByteArray serializeFindedUsersResponse(const QList<QPair<int, QString>>& foundUsers);
 
     static QPair<QString, QString> deserializeAuthRequest(const QByteArray &packetData);
     static GetRequestBody deserializeGetRequest(const QByteArray &packetData);

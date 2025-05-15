@@ -87,7 +87,7 @@ void Server::handleFindUsersRequest(const QByteArray &packetData, qintptr socket
         return;
     }
 
-    QList<QString> usersWithSimilarLogin = DbHandler::getInstance()->findUsersWithSimilarLogin(loginToFind);
+    QList<QPair<int, QString>> usersWithSimilarLogin = DbHandler::getInstance()->findUsersWithSimilarLogin(loginToFind);
 
     QByteArray data = Serializer::serializeFindedUsersResponse(usersWithSimilarLogin);
     QByteArray packet = PacketBuilder::createPacketToSend(data, ResponseType::RESPONSE_FIND_USERS);

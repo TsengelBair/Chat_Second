@@ -107,17 +107,22 @@ QByteArray Serializer::serializeGetResponse(QVector<Chat> &chats, bool isEmpty)
     return data;
 }
 
-QByteArray Serializer::serializeFindedUsersResponse(QList<QString> foundUsers)
+QByteArray Serializer::serializeFindedUsersResponse(const QList<QPair<int, QString>>& foundUsers)
 {
     ISearchResponse response;
 
-    for (const QString& user : foundUsers) {
-        response.add_find_logins(user.toStdString());
+    if (!foundUsers.empty()) {
+        for (const auto& user : foundUsers) {
+            User* userMessage = response.add_found_users();
+            userMessage->set_user_id(user.first);
+            userMessage->set_login(user.second.toStdString());
+        }
     }
 
-    response.set_is_empty(foundUsers.empty());
+    response.set_is_empty(foundUsers.isEmpty());
 
     std::string serializedStr = response.SerializeAsString();
     return QByteArray(serializedStr.data(), static_cast<int>(serializedStr.size()));
 }
+
 

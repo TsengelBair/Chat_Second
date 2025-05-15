@@ -3,6 +3,7 @@
 
 #include <QSqlDatabase>
 #include <QDateTime>
+#include <QPair>
 
 #include "structs.h"
 
@@ -28,7 +29,7 @@ public:
 
     QVector<Chat> loadUserChats(int userId, int limit);
     QVector<Message> loadChatMessages(int chatId, int limit);
-    QList<QString> findUsersWithSimilarLogin(const QString &loginToFind);
+    QList<QPair<int, QString>> findUsersWithSimilarLogin(const QString &loginToFind);
 };
 
 

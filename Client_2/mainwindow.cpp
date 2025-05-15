@@ -75,10 +75,17 @@ void MainWindow::sendSearchUsersRequest()
 void MainWindow::slotChatSelected(QListWidgetItem *item)
 {
     ui->stackedWidget->setCurrentIndex(0);
-    /// установить заголовок чата
+    /// Установить заголовок чата
     ui->chatHeaderUserNameLB->setText(item->text());
-    /// подгрузить сообщения
-    /// для этого необходимо написать прото файл с запросом наполучение всех сообщений с выбранным пользователем
+
+    /// Получить userId из данных элемента
+    int selectedUserId = item->data(Qt::UserRole).toInt();
+
+    /// Выводим userId в консоль
+    qDebug() << "Выбранный userId:" << selectedUserId;
+
+    /// Подгрузить сообщения
+    /// Для этого необходимо написать прото файл с запросом на получение всех сообщений с выбранным пользователем
 }
 
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
@@ -96,7 +103,7 @@ void MainWindow::slotSearchUsersResponseReceived(const QByteArray &data)
     /// очистка предыдущих значений
     ui->chatsLW->clear();
 
-    QList<QString> foundUsers = Serializer::deserializeFoundUsersResponse(data);
+    QList<QPair<int, QString>> foundUsers = Serializer::deserializeFoundUsersResponse(data);
 
     if (foundUsers.empty()) {
         qDebug() << "Пользователи с похожим логином не найдены";
@@ -104,6 +111,10 @@ void MainWindow::slotSearchUsersResponseReceived(const QByteArray &data)
     }
 
     for (const auto &user : foundUsers) {
-        ui->chatsLW->addItem(user);
+        QListWidgetItem *item = new QListWidgetItem(user.second);
+        item->setData(Qt::UserRole, user.first);
+        ui->chatsLW->addItem(item);
     }
 }
+
+

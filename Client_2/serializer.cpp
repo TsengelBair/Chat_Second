@@ -89,24 +89,25 @@ QVector<Chat> Serializer::deserializeGetDefaultDataResponse(const QByteArray &da
     return QVector<Chat>(); /// чтобы не было warning
 }
 
-QList<QString> Serializer::deserializeFoundUsersResponse(const QByteArray &data)
+QList<QPair<int, QString>> Serializer::deserializeFoundUsersResponse(const QByteArray &data)
 {
-    QList<QString> foundUsers;
+    QList<QPair<int, QString>> foundUsers;
 
     ISearchResponse response;
     if (!response.ParseFromArray(data.constData(), data.size())) {
-        qDebug() << "Error while deserialize found users response";
-        return QList<QString>();
+        qDebug() << "Error while deserializing found users response";
+        return QList<QPair<int, QString>>();
     }
 
     if (response.is_empty()) {
         qDebug() << "No users found (empty flag set)";
-        return QList<QString>();
+        return QList<QPair<int, QString>>();
     }
 
-    const auto& logins = response.find_logins();
-    for (const auto& login : logins) {
-        foundUsers.append(QString::fromStdString(login));
+    // Извлекаем пользователей из ответа
+    const auto& users = response.found_users();
+    for (const auto& user : users) {
+        foundUsers.append(qMakePair(user.user_id(), QString::fromStdString(user.login())));
     }
 
     return foundUsers;

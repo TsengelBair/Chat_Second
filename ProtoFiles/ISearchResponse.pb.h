@@ -47,7 +47,7 @@ struct TableStruct_ISearchResponse_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxillaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -57,11 +57,179 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class ISearchResponse;
 class ISearchResponseDefaultTypeInternal;
 extern ISearchResponseDefaultTypeInternal _ISearchResponse_default_instance_;
+class User;
+class UserDefaultTypeInternal;
+extern UserDefaultTypeInternal _User_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::ISearchResponse* Arena::CreateMaybeMessage<::ISearchResponse>(Arena*);
+template<> ::User* Arena::CreateMaybeMessage<::User>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 // ===================================================================
+
+class User PROTOBUF_FINAL :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:User) */ {
+ public:
+  inline User() : User(nullptr) {};
+  virtual ~User();
+
+  User(const User& from);
+  User(User&& from) noexcept
+    : User() {
+    *this = ::std::move(from);
+  }
+
+  inline User& operator=(const User& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline User& operator=(User&& from) noexcept {
+    if (GetArena() == from.GetArena()) {
+      if (this != &from) InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return GetMetadataStatic().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return GetMetadataStatic().reflection;
+  }
+  static const User& default_instance();
+
+  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
+  static inline const User* internal_default_instance() {
+    return reinterpret_cast<const User*>(
+               &_User_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(User& a, User& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(User* other) {
+    if (other == this) return;
+    if (GetArena() == other->GetArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(User* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetArena() == other->GetArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline User* New() const final {
+    return CreateMaybeMessage<User>(nullptr);
+  }
+
+  User* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<User>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const User& from);
+  void MergeFrom(const User& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  inline void SharedCtor();
+  inline void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(User* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "User";
+  }
+  protected:
+  explicit User(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+  private:
+  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
+    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_ISearchResponse_2eproto);
+    return ::descriptor_table_ISearchResponse_2eproto.file_level_metadata[kIndexInFileMessages];
+  }
+
+  public:
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kLoginFieldNumber = 2,
+    kUserIdFieldNumber = 1,
+  };
+  // string login = 2;
+  void clear_login();
+  const std::string& login() const;
+  void set_login(const std::string& value);
+  void set_login(std::string&& value);
+  void set_login(const char* value);
+  void set_login(const char* value, size_t size);
+  std::string* mutable_login();
+  std::string* release_login();
+  void set_allocated_login(std::string* login);
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  std::string* unsafe_arena_release_login();
+  GOOGLE_PROTOBUF_RUNTIME_DEPRECATED("The unsafe_arena_ accessors for"
+  "    string fields are deprecated and will be removed in a"
+  "    future release.")
+  void unsafe_arena_set_allocated_login(
+      std::string* login);
+  private:
+  const std::string& _internal_login() const;
+  void _internal_set_login(const std::string& value);
+  std::string* _internal_mutable_login();
+  public:
+
+  // int32 user_id = 1;
+  void clear_user_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id() const;
+  void set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_user_id() const;
+  void _internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:User)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr login_;
+  ::PROTOBUF_NAMESPACE_ID::int32 user_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_ISearchResponse_2eproto;
+};
+// -------------------------------------------------------------------
 
 class ISearchResponse PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:ISearchResponse) */ {
@@ -105,7 +273,7 @@ class ISearchResponse PROTOBUF_FINAL :
                &_ISearchResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    0;
+    1;
 
   friend void swap(ISearchResponse& a, ISearchResponse& b) {
     a.Swap(&b);
@@ -176,32 +344,26 @@ class ISearchResponse PROTOBUF_FINAL :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kFindLoginsFieldNumber = 1,
+    kFoundUsersFieldNumber = 1,
     kIsEmptyFieldNumber = 2,
   };
-  // repeated string find_logins = 1;
-  int find_logins_size() const;
+  // repeated .User found_users = 1;
+  int found_users_size() const;
   private:
-  int _internal_find_logins_size() const;
+  int _internal_found_users_size() const;
   public:
-  void clear_find_logins();
-  const std::string& find_logins(int index) const;
-  std::string* mutable_find_logins(int index);
-  void set_find_logins(int index, const std::string& value);
-  void set_find_logins(int index, std::string&& value);
-  void set_find_logins(int index, const char* value);
-  void set_find_logins(int index, const char* value, size_t size);
-  std::string* add_find_logins();
-  void add_find_logins(const std::string& value);
-  void add_find_logins(std::string&& value);
-  void add_find_logins(const char* value);
-  void add_find_logins(const char* value, size_t size);
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>& find_logins() const;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>* mutable_find_logins();
+  void clear_found_users();
+  ::User* mutable_found_users(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::User >*
+      mutable_found_users();
   private:
-  const std::string& _internal_find_logins(int index) const;
-  std::string* _internal_add_find_logins();
+  const ::User& _internal_found_users(int index) const;
+  ::User* _internal_add_found_users();
   public:
+  const ::User& found_users(int index) const;
+  ::User* add_found_users();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::User >&
+      found_users() const;
 
   // bool is_empty = 2;
   void clear_is_empty();
@@ -219,7 +381,7 @@ class ISearchResponse PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string> find_logins_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::User > found_users_;
   bool is_empty_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_ISearchResponse_2eproto;
@@ -233,80 +395,150 @@ class ISearchResponse PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// User
+
+// int32 user_id = 1;
+inline void User::clear_user_id() {
+  user_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 User::_internal_user_id() const {
+  return user_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 User::user_id() const {
+  // @@protoc_insertion_point(field_get:User.user_id)
+  return _internal_user_id();
+}
+inline void User::_internal_set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  user_id_ = value;
+}
+inline void User::set_user_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_user_id(value);
+  // @@protoc_insertion_point(field_set:User.user_id)
+}
+
+// string login = 2;
+inline void User::clear_login() {
+  login_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline const std::string& User::login() const {
+  // @@protoc_insertion_point(field_get:User.login)
+  return _internal_login();
+}
+inline void User::set_login(const std::string& value) {
+  _internal_set_login(value);
+  // @@protoc_insertion_point(field_set:User.login)
+}
+inline std::string* User::mutable_login() {
+  // @@protoc_insertion_point(field_mutable:User.login)
+  return _internal_mutable_login();
+}
+inline const std::string& User::_internal_login() const {
+  return login_.Get();
+}
+inline void User::_internal_set_login(const std::string& value) {
+  
+  login_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
+}
+inline void User::set_login(std::string&& value) {
+  
+  login_.Set(
+    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
+  // @@protoc_insertion_point(field_set_rvalue:User.login)
+}
+inline void User::set_login(const char* value) {
+  GOOGLE_DCHECK(value != nullptr);
+  
+  login_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
+              GetArena());
+  // @@protoc_insertion_point(field_set_char:User.login)
+}
+inline void User::set_login(const char* value,
+    size_t size) {
+  
+  login_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
+      reinterpret_cast<const char*>(value), size), GetArena());
+  // @@protoc_insertion_point(field_set_pointer:User.login)
+}
+inline std::string* User::_internal_mutable_login() {
+  
+  return login_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline std::string* User::release_login() {
+  // @@protoc_insertion_point(field_release:User.login)
+  return login_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+}
+inline void User::set_allocated_login(std::string* login) {
+  if (login != nullptr) {
+    
+  } else {
+    
+  }
+  login_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), login,
+      GetArena());
+  // @@protoc_insertion_point(field_set_allocated:User.login)
+}
+inline std::string* User::unsafe_arena_release_login() {
+  // @@protoc_insertion_point(field_unsafe_arena_release:User.login)
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  
+  return login_.UnsafeArenaRelease(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      GetArena());
+}
+inline void User::unsafe_arena_set_allocated_login(
+    std::string* login) {
+  GOOGLE_DCHECK(GetArena() != nullptr);
+  if (login != nullptr) {
+    
+  } else {
+    
+  }
+  login_.UnsafeArenaSetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
+      login, GetArena());
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:User.login)
+}
+
+// -------------------------------------------------------------------
+
 // ISearchResponse
 
-// repeated string find_logins = 1;
-inline int ISearchResponse::_internal_find_logins_size() const {
-  return find_logins_.size();
+// repeated .User found_users = 1;
+inline int ISearchResponse::_internal_found_users_size() const {
+  return found_users_.size();
 }
-inline int ISearchResponse::find_logins_size() const {
-  return _internal_find_logins_size();
+inline int ISearchResponse::found_users_size() const {
+  return _internal_found_users_size();
 }
-inline void ISearchResponse::clear_find_logins() {
-  find_logins_.Clear();
+inline void ISearchResponse::clear_found_users() {
+  found_users_.Clear();
 }
-inline std::string* ISearchResponse::add_find_logins() {
-  // @@protoc_insertion_point(field_add_mutable:ISearchResponse.find_logins)
-  return _internal_add_find_logins();
+inline ::User* ISearchResponse::mutable_found_users(int index) {
+  // @@protoc_insertion_point(field_mutable:ISearchResponse.found_users)
+  return found_users_.Mutable(index);
 }
-inline const std::string& ISearchResponse::_internal_find_logins(int index) const {
-  return find_logins_.Get(index);
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::User >*
+ISearchResponse::mutable_found_users() {
+  // @@protoc_insertion_point(field_mutable_list:ISearchResponse.found_users)
+  return &found_users_;
 }
-inline const std::string& ISearchResponse::find_logins(int index) const {
-  // @@protoc_insertion_point(field_get:ISearchResponse.find_logins)
-  return _internal_find_logins(index);
+inline const ::User& ISearchResponse::_internal_found_users(int index) const {
+  return found_users_.Get(index);
 }
-inline std::string* ISearchResponse::mutable_find_logins(int index) {
-  // @@protoc_insertion_point(field_mutable:ISearchResponse.find_logins)
-  return find_logins_.Mutable(index);
+inline const ::User& ISearchResponse::found_users(int index) const {
+  // @@protoc_insertion_point(field_get:ISearchResponse.found_users)
+  return _internal_found_users(index);
 }
-inline void ISearchResponse::set_find_logins(int index, const std::string& value) {
-  // @@protoc_insertion_point(field_set:ISearchResponse.find_logins)
-  find_logins_.Mutable(index)->assign(value);
+inline ::User* ISearchResponse::_internal_add_found_users() {
+  return found_users_.Add();
 }
-inline void ISearchResponse::set_find_logins(int index, std::string&& value) {
-  // @@protoc_insertion_point(field_set:ISearchResponse.find_logins)
-  find_logins_.Mutable(index)->assign(std::move(value));
+inline ::User* ISearchResponse::add_found_users() {
+  // @@protoc_insertion_point(field_add:ISearchResponse.found_users)
+  return _internal_add_found_users();
 }
-inline void ISearchResponse::set_find_logins(int index, const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  find_logins_.Mutable(index)->assign(value);
-  // @@protoc_insertion_point(field_set_char:ISearchResponse.find_logins)
-}
-inline void ISearchResponse::set_find_logins(int index, const char* value, size_t size) {
-  find_logins_.Mutable(index)->assign(
-    reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_set_pointer:ISearchResponse.find_logins)
-}
-inline std::string* ISearchResponse::_internal_add_find_logins() {
-  return find_logins_.Add();
-}
-inline void ISearchResponse::add_find_logins(const std::string& value) {
-  find_logins_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add:ISearchResponse.find_logins)
-}
-inline void ISearchResponse::add_find_logins(std::string&& value) {
-  find_logins_.Add(std::move(value));
-  // @@protoc_insertion_point(field_add:ISearchResponse.find_logins)
-}
-inline void ISearchResponse::add_find_logins(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  find_logins_.Add()->assign(value);
-  // @@protoc_insertion_point(field_add_char:ISearchResponse.find_logins)
-}
-inline void ISearchResponse::add_find_logins(const char* value, size_t size) {
-  find_logins_.Add()->assign(reinterpret_cast<const char*>(value), size);
-  // @@protoc_insertion_point(field_add_pointer:ISearchResponse.find_logins)
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>&
-ISearchResponse::find_logins() const {
-  // @@protoc_insertion_point(field_list:ISearchResponse.find_logins)
-  return find_logins_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField<std::string>*
-ISearchResponse::mutable_find_logins() {
-  // @@protoc_insertion_point(field_mutable_list:ISearchResponse.find_logins)
-  return &find_logins_;
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::User >&
+ISearchResponse::found_users() const {
+  // @@protoc_insertion_point(field_list:ISearchResponse.found_users)
+  return found_users_;
 }
 
 // bool is_empty = 2;
@@ -332,6 +564,8 @@ inline void ISearchResponse::set_is_empty(bool value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 

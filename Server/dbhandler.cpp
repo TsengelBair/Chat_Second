@@ -264,13 +264,13 @@ QVector<Message> DbHandler::loadChatMessages(int chatId, int limit)
     return messages;
 }
 
-QList<QString> DbHandler::findUsersWithSimilarLogin(const QString &prefix)
+QList<QPair<int, QString>> DbHandler::findUsersWithSimilarLogin(const QString &prefix)
 {
-    QList<QString> users;
+    QList<QPair<int, QString>> users;
 
     QSqlQuery query;
     query.prepare(R"(
-        SELECT login FROM users
+        SELECT id, login FROM users
         WHERE login LIKE :pattern || '%'
         ORDER BY login
         LIMIT 50
@@ -284,7 +284,9 @@ QList<QString> DbHandler::findUsersWithSimilarLogin(const QString &prefix)
     }
 
     while (query.next()) {
-        users.append(query.value("login").toString());
+        int userId = query.value("id").toInt();
+        QString login = query.value("login").toString();
+        users.append(qMakePair(userId, login));
     }
 
     return users;
