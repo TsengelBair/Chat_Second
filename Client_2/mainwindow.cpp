@@ -15,11 +15,17 @@ MainWindow::MainWindow(QSharedPointer<NetworkManager> networkManager, int userId
     connect(this, &MainWindow::signalSendGetDefaultDataRequest, m_networkManager.data(),
                                  &NetworkManager::slotSendPacket, Qt::UniqueConnection);
 
+    connect(this, &MainWindow::singalSendSearchUsersRequest, m_networkManager.data(),
+                                 &NetworkManager::slotSendPacket, Qt::UniqueConnection);
+
     connect(networkManager.data(), &NetworkManager::signalGetDefaultDataResponseReceived,
-                                  this, &MainWindow::slotGetDefaultDataResponseReceived);
+            this, &MainWindow::slotGetDefaultDataResponseReceived, Qt::UniqueConnection);
 
     /// после успешной авторизации отправляем get запрос на получение данных, которые подругрузим в ui (чаты и тд)
-    createGetDefaultDataRequest();
+    sendGetDefaultDataRequest();
+
+    /// инициализация таймера, для логики поисковой строки
+    initializeTimer();
 
     this->show();
 }
@@ -29,12 +35,35 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::createGetDefaultDataRequest()
+void MainWindow::initializeTimer()
+{
+    m_timer = new QTimer(this);
+
+    m_timer->setInterval(500); /// запрос поиска на сервер отправляется с задержкой пол секунды
+    m_timer->setSingleShot(true); /// чтобы таймер срабатывал единожды и автоматически останавливался
+
+    connect(ui->searchLE, &QLineEdit::textChanged, this, [&](){ m_timer->start(); }, Qt::UniqueConnection);
+    connect(m_timer, &QTimer::timeout, this, &MainWindow::sendSearchUsersRequest, Qt::UniqueConnection);
+}
+
+
+void MainWindow::sendGetDefaultDataRequest()
 {
     RequestType requestType = RequestType::REQUEST_GET_DEFAULT_DATA;
     QByteArray data = Serializer::serializeGetReq(m_userId);
 
     emit signalSendGetDefaultDataRequest(data, requestType);
+}
+
+void MainWindow::sendSearchUsersRequest()
+{
+    RequestType requestType = RequestType::REQUEST_FIND_USERS;
+
+    QString loginToSearch = ui->searchLE->text();
+    if (loginToSearch.isEmpty()) return;
+
+    QByteArray data = Serializer::serializeSearchUsersReq(loginToSearch);
+    emit singalSendSearchUsersRequest(data, requestType);
 }
 
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)

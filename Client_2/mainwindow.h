@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QTimer>
 
 #include "types.h"
 
@@ -21,16 +22,22 @@ public:
 
 signals:
     void signalSendGetDefaultDataRequest(QByteArray &data, RequestType &requestType);
+    void singalSendSearchUsersRequest(QByteArray &data, RequestType &requestType);
 
 public slots:
     void slotGetDefaultDataResponseReceived(const QByteArray &data);
 
 private slots:
-    void createGetDefaultDataRequest();
+    void sendGetDefaultDataRequest();
+    void sendSearchUsersRequest();
+
+private:
+    void initializeTimer();
 
 private:
     Ui::MainWindow *ui;
     QSharedPointer<NetworkManager> m_networkManager;
     int m_userId;
+    QTimer* m_timer;
 };
 #endif // MAINWINDOW_H

@@ -5,6 +5,7 @@
 #include "../ProtoFiles/IAuthResponse.pb.h"
 #include "../ProtoFiles/IGetRequest.pb.h"
 #include "../ProtoFiles/IGetResponse.pb.h"
+#include "../ProtoFiles/ISearchRequest.pb.h"
 
 QByteArray Serializer::serializeAuthReq(const QString &login, const QString &password)
 {
@@ -24,15 +25,30 @@ QByteArray Serializer::serializeAuthReq(const QString &login, const QString &pas
 
 QByteArray Serializer::serializeGetReq(const int userId)
 {
-    IGetRequest getReq;
+    IGetRequest request;
 
-    getReq.set_userid(userId);
-    getReq.set_chats_limit(20); /// получаем максимум 20 чатов
-    getReq.set_messages_in_chat_limit(20); /// максимум 20 сообщений в каждом чате
+    request.set_userid(userId);
+    request.set_chats_limit(20); /// получаем максимум 20 чатов
+    request.set_messages_in_chat_limit(20); /// максимум 20 сообщений в каждом чате
 
     std::string serialized_data;
-    if (!getReq.SerializeToString(&serialized_data)){
+    if (!request.SerializeToString(&serialized_data)){
         qDebug() << "Error while serialize get request";
+    }
+
+    QByteArray data(serialized_data.c_str(), serialized_data.size());
+    return data;
+}
+
+QByteArray Serializer::serializeSearchUsersReq(const QString &loginToSearch)
+{
+    ISearchRequest request;
+
+    request.set_login(loginToSearch.toStdString());
+
+    std::string serialized_data;
+    if (!request.SerializeToString(&serialized_data)){
+        qDebug() << "Error while serialize search users request";
     }
 
     QByteArray data(serialized_data.c_str(), serialized_data.size());
