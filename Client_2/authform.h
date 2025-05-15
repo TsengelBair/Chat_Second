@@ -23,7 +23,6 @@ public:
 
 signals:
     void signalSendAuthRequest(QByteArray &data, RequestType &requestType);
-    void signalSuccessAuth();
 
 public slots:
     void slotAuthResponseReceived(const QByteArray &data, const ResponseType &responseType);

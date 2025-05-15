@@ -38,7 +38,7 @@ void AuthForm::slotAuthResponseReceived(const QByteArray &data, const ResponseTy
         /// также необходимо передать id пользователя
         if (!mainWindow) {
             mainWindow.reset(new MainWindow(m_networkManager, userId));
-            emit signalSuccessAuth();
+            this->close();
         }
         return;
     } else if (serverResponseCode == 500) {
@@ -50,7 +50,7 @@ void AuthForm::slotAuthResponseReceived(const QByteArray &data, const ResponseTy
     } else if (serverResponseCode == 201) {
         if (!mainWindow) {
             mainWindow.reset(new MainWindow(m_networkManager, userId));
-            emit signalSuccessAuth();
+            this->close();
         }
         return;
     }
