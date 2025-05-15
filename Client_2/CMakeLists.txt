@@ -28,6 +28,7 @@ set(PROJECT_SOURCES
         networkmanager.h
         networkmanager.cpp
         types.h
+        structs.h
         validator.h
         validator.cpp
         packetbuilder.h

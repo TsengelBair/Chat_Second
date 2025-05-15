@@ -74,7 +74,10 @@ void MainWindow::sendSearchUsersRequest()
 
 void MainWindow::slotChatSelected(QListWidgetItem *item)
 {
-    qDebug() << "Выбран элемент" << item->text();
+    ui->stackedWidget->setCurrentIndex(0);
+    /// установить заголовок чата
+    ui->chatHeaderUserNameLB->setText(item->text());
+    /// подгрузить сообщения
 }
 
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
