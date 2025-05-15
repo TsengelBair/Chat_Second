@@ -78,6 +78,7 @@ void MainWindow::slotChatSelected(QListWidgetItem *item)
     /// установить заголовок чата
     ui->chatHeaderUserNameLB->setText(item->text());
     /// подгрузить сообщения
+    /// для этого необходимо написать прото файл с запросом наполучение всех сообщений с выбранным пользователем
 }
 
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
