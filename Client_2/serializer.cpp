@@ -4,6 +4,7 @@
 #include "../ProtoFiles/IAuthRequest.pb.h"
 #include "../ProtoFiles/IAuthResponse.pb.h"
 #include "../ProtoFiles/IGetRequest.pb.h"
+#include "../ProtoFiles/IGetResponse.pb.h"
 
 QByteArray Serializer::serializeAuthReq(const QString &login, const QString &password)
 {
@@ -50,4 +51,23 @@ QPair<int, int> Serializer::deserializeAuthResponse(const QByteArray &data)
     int userId = response.userid();
 
     return qMakePair(serverResponseCode, userId);
+}
+
+QVector<Chat> Serializer::deserializeGetDefaultDataResponse(const QByteArray &data)
+{
+    QVector<Chat> chats;
+
+    IGetResponse response;
+    if (!response.ParseFromArray(data.data(), data.size())) {
+        qDebug() << "Error while deserialize get default data response";
+        return QVector<Chat>();
+    }
+
+    if (response.is_empty()) {
+        qDebug() << "Флаг isEmpty == true, возвращаю пустой объект";
+        return QVector<Chat>();
+    }
+
+    /// дальнейшая обработка непустого ответа здесь
+    return QVector<Chat>(); /// чтобы не было warning
 }

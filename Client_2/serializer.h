@@ -4,6 +4,8 @@
 #include <QByteArray>
 #include <QPair>
 
+#include "structs.h"
+
 class Serializer
 {
 public:
@@ -15,6 +17,7 @@ public:
     static QByteArray serializeGetReq(const int userId);
 
     static QPair<int, int> deserializeAuthResponse(const QByteArray &data);
+    static QVector<Chat> deserializeGetDefaultDataResponse(const QByteArray &data);
 };
 
 #endif // SERIALIZER_H

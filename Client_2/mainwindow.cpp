@@ -2,7 +2,7 @@
 #include "./ui_mainwindow.h"
 #include "networkmanager.h"
 #include "serializer.h"
-#include "../ProtoFiles/IGetResponse.pb.h"
+#include "types.h"
 
 MainWindow::MainWindow(QSharedPointer<NetworkManager> networkManager, int userId, QWidget *parent) :
     QMainWindow(parent),
@@ -39,18 +39,10 @@ void MainWindow::createGetDefaultDataRequest()
 
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
 {
-    /// вынести в класс Serializer
-    IGetResponse getResponse;
-
-    if (!getResponse.ParseFromArray(data.data(), data.size())) {
-        qWarning() << "Failed to parse response data.";
-        return;
-    }
-
-    if (getResponse.is_empty()) {
+    QVector<Chat> chats = Serializer::deserializeGetDefaultDataResponse(data);
+    if (chats.empty()) {
         ui->stackedWidget->setCurrentIndex(1);
-        return;
     }
 
-    /// добавить подгрузку (когда будут данные)
+    /// добавить отображение чатов при непустом ответе
 }
