@@ -33,6 +33,7 @@ set(PROJECT_SOURCES
     packetbuilder.h
     packetbuilder.cpp
     types.h
+    structs.h
     ${PROTO_FILES}
 )
 
