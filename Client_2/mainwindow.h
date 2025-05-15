@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QTimer>
+#include <QKeyEvent>
 
 #include "types.h"
 
@@ -28,6 +29,9 @@ signals:
 public slots:
     void slotGetDefaultDataResponseReceived(const QByteArray &data);
     void slotSearchUsersResponseReceived(const QByteArray &data);
+
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 
 private slots:
     void sendGetDefaultDataRequest();

@@ -117,4 +117,14 @@ void MainWindow::slotSearchUsersResponseReceived(const QByteArray &data)
     }
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape) {
+        ui->stackedWidget->setCurrentIndex(1);
+    }
+
+    QWidget::keyPressEvent(event);
+}
+
+
 
