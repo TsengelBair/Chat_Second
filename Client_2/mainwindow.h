@@ -11,6 +11,7 @@ namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
 class NetworkManager;
+class QListWidgetItem;
 
 class MainWindow : public QMainWindow
 {
@@ -31,6 +32,7 @@ public slots:
 private slots:
     void sendGetDefaultDataRequest();
     void sendSearchUsersRequest();
+    void slotChatSelected(QListWidgetItem *item);
 
 private:
     void initializeTimer();

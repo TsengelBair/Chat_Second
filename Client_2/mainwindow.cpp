@@ -1,3 +1,5 @@
+#include <QListWidget>
+
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include "networkmanager.h"
@@ -24,6 +26,8 @@ MainWindow::MainWindow(QSharedPointer<NetworkManager> networkManager, int userId
     connect(networkManager.data(), &NetworkManager::signalGetFoundedUsersResponseReceived,
             this, &MainWindow::slotSearchUsersResponseReceived, Qt::UniqueConnection);
 
+    connect(ui->chatsLW, &QListWidget::itemClicked, this, &MainWindow::slotChatSelected);
+
     /// после успешной авторизации отправляем get запрос на получение данных, которые подругрузим в ui (чаты и тд)
     sendGetDefaultDataRequest();
 
@@ -49,7 +53,6 @@ void MainWindow::initializeTimer()
     connect(m_timer, &QTimer::timeout, this, &MainWindow::sendSearchUsersRequest, Qt::UniqueConnection);
 }
 
-
 void MainWindow::sendGetDefaultDataRequest()
 {
     RequestType requestType = RequestType::REQUEST_GET_DEFAULT_DATA;
@@ -69,6 +72,11 @@ void MainWindow::sendSearchUsersRequest()
     emit singalSendSearchUsersRequest(data, requestType);
 }
 
+void MainWindow::slotChatSelected(QListWidgetItem *item)
+{
+    qDebug() << "Выбран элемент" << item->text();
+}
+
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
 {
     QVector<Chat> chats = Serializer::deserializeGetDefaultDataResponse(data);
@@ -82,7 +90,7 @@ void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
 void MainWindow::slotSearchUsersResponseReceived(const QByteArray &data)
 {
     /// очистка предыдущих значений
-    ui->listWidget->clear();
+    ui->chatsLW->clear();
 
     QList<QString> foundUsers = Serializer::deserializeFoundUsersResponse(data);
 
@@ -92,6 +100,6 @@ void MainWindow::slotSearchUsersResponseReceived(const QByteArray &data)
     }
 
     for (const auto &user : foundUsers) {
-        ui->listWidget->addItem(user);
+        ui->chatsLW->addItem(user);
     }
 }
