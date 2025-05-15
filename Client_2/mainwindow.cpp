@@ -21,6 +21,9 @@ MainWindow::MainWindow(QSharedPointer<NetworkManager> networkManager, int userId
     connect(networkManager.data(), &NetworkManager::signalGetDefaultDataResponseReceived,
             this, &MainWindow::slotGetDefaultDataResponseReceived, Qt::UniqueConnection);
 
+    connect(networkManager.data(), &NetworkManager::signalGetFoundedUsersResponseReceived,
+            this, &MainWindow::slotSearchUsersResponseReceived, Qt::UniqueConnection);
+
     /// после успешной авторизации отправляем get запрос на получение данных, которые подругрузим в ui (чаты и тд)
     sendGetDefaultDataRequest();
 
@@ -74,4 +77,21 @@ void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)
     }
 
     /// добавить отображение чатов при непустом ответе
+}
+
+void MainWindow::slotSearchUsersResponseReceived(const QByteArray &data)
+{
+    /// очистка предыдущих значений
+    ui->listWidget->clear();
+
+    QList<QString> foundUsers = Serializer::deserializeFoundUsersResponse(data);
+
+    if (foundUsers.empty()) {
+        qDebug() << "Пользователи с похожим логином не найдены";
+        return;
+    }
+
+    for (const auto &user : foundUsers) {
+        ui->listWidget->addItem(user);
+    }
 }

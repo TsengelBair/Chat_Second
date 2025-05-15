@@ -9,17 +9,16 @@ enum RequestType : uint8_t {
     GET_CHATS = 2,
     FIND_USERS = 3,
     SEND_MESSAGE = 4,
-    MAX_VALUE = 127
+    /// MAX_VALUE = 127
 };
 
 enum ResponseType : uint8_t {
     RESPONSE_LOGIN = 128,
     RESPONSE_REGISTER = 129,
     RESPONSE_GET_CHATS = 130,
-    RESPONSE_GET_CHATS_EMPTY = 131,
-    RESPONSE_FIND_USERS = 132,
-    RESPONSE_SEND_MESSAGE = 133,
-    RESPONSE_ERROR = 255,
+    RESPONSE_FIND_USERS = 131,
+    RESPONSE_SEND_MESSAGE = 132,
+    /// MAX_VALUE = 255
 };
 
 #endif // TYPES_H

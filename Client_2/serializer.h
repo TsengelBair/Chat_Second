@@ -19,6 +19,7 @@ public:
 
     static QPair<int, int> deserializeAuthResponse(const QByteArray &data);
     static QVector<Chat> deserializeGetDefaultDataResponse(const QByteArray &data);
+    static QList<QString> deserializeFoundUsersResponse(const QByteArray &data);
 };
 
 #endif // SERIALIZER_H

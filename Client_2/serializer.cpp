@@ -6,6 +6,7 @@
 #include "../ProtoFiles/IGetRequest.pb.h"
 #include "../ProtoFiles/IGetResponse.pb.h"
 #include "../ProtoFiles/ISearchRequest.pb.h"
+#include "../ProtoFiles/ISearchResponse.pb.h"
 
 QByteArray Serializer::serializeAuthReq(const QString &login, const QString &password)
 {
@@ -86,4 +87,27 @@ QVector<Chat> Serializer::deserializeGetDefaultDataResponse(const QByteArray &da
 
     /// дальнейшая обработка непустого ответа здесь
     return QVector<Chat>(); /// чтобы не было warning
+}
+
+QList<QString> Serializer::deserializeFoundUsersResponse(const QByteArray &data)
+{
+    QList<QString> foundUsers;
+
+    ISearchResponse response;
+    if (!response.ParseFromArray(data.constData(), data.size())) {
+        qDebug() << "Error while deserialize found users response";
+        return QList<QString>();
+    }
+
+    if (response.is_empty()) {
+        qDebug() << "No users found (empty flag set)";
+        return QList<QString>();
+    }
+
+    const auto& logins = response.find_logins();
+    for (const auto& login : logins) {
+        foundUsers.append(QString::fromStdString(login));
+    }
+
+    return foundUsers;
 }

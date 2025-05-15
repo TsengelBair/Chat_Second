@@ -26,6 +26,7 @@ signals:
 
 public slots:
     void slotGetDefaultDataResponseReceived(const QByteArray &data);
+    void slotSearchUsersResponseReceived(const QByteArray &data);
 
 private slots:
     void sendGetDefaultDataRequest();
