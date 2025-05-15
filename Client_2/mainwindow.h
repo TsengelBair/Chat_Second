@@ -23,7 +23,7 @@ signals:
     void signalSendGetDefaultDataRequest(QByteArray &data, RequestType &requestType);
 
 public slots:
-    void slotGetDefaultDataResponseReceived(const QByteArray &data, const ResponseType &responseType);
+    void slotGetDefaultDataResponseReceived(const QByteArray &data);
 
 private slots:
     void createGetDefaultDataRequest();
