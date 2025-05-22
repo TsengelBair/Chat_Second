@@ -7,6 +7,7 @@
 #include "../ProtoFiles/IGetResponse.pb.h"
 #include "../ProtoFiles/ISearchRequest.pb.h"
 #include "../ProtoFiles/ISearchResponse.pb.h"
+#include "../ProtoFiles/IGetChatHistoryRequest.pb.h"
 
 QByteArray Serializer::serializeAuthReq(const QString &login, const QString &password)
 {
@@ -50,6 +51,22 @@ QByteArray Serializer::serializeSearchUsersReq(const QString &loginToSearch)
     std::string serialized_data;
     if (!request.SerializeToString(&serialized_data)){
         qDebug() << "Error while serialize search users request";
+    }
+
+    QByteArray data(serialized_data.c_str(), serialized_data.size());
+    return data;
+}
+
+QByteArray Serializer::serializeGetChatHistoryReq(const int senderId, const int interlocutorId)
+{
+    IGetChatHistoryRequest request;
+
+    request.set_sender_id(senderId);
+    request.set_interlocutor_id(interlocutorId);
+
+    std::string serialized_data;
+    if (!request.SerializeToString(&serialized_data)){
+        qDebug() << "Error while serialize get chat history request";
     }
 
     QByteArray data(serialized_data.c_str(), serialized_data.size());

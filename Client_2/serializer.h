@@ -16,6 +16,7 @@ public:
     static QByteArray serializeAuthReq(const QString &login, const QString &password);
     static QByteArray serializeGetReq(const int userId);
     static QByteArray serializeSearchUsersReq(const QString &loginToSearch);
+    static QByteArray serializeGetChatHistoryReq(const int senderId, const int interlocutorId);
 
     static QPair<int, int> deserializeAuthResponse(const QByteArray &data);
     static QVector<Chat> deserializeGetDefaultDataResponse(const QByteArray &data);

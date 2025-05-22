@@ -20,6 +20,9 @@ MainWindow::MainWindow(QSharedPointer<NetworkManager> networkManager, int userId
     connect(this, &MainWindow::singalSendSearchUsersRequest, m_networkManager.data(),
                                  &NetworkManager::slotSendPacket, Qt::UniqueConnection);
 
+    connect(this, &MainWindow::signalSendGetChatHistoryRequest, m_networkManager.data(),
+                                 &NetworkManager::slotSendPacket, Qt::UniqueConnection);
+
     connect(networkManager.data(), &NetworkManager::signalGetDefaultDataResponseReceived,
             this, &MainWindow::slotGetDefaultDataResponseReceived, Qt::UniqueConnection);
 
@@ -74,18 +77,19 @@ void MainWindow::sendSearchUsersRequest()
 
 void MainWindow::slotChatSelected(QListWidgetItem *item)
 {
+    RequestType requestType = RequestType::REQUEST_LOAD_CHAT_HISTORY;
+
     ui->stackedWidget->setCurrentIndex(0);
-    /// Установить заголовок чата
     ui->chatHeaderUserNameLB->setText(item->text());
 
     /// Получить userId из данных элемента
     int selectedUserId = item->data(Qt::UserRole).toInt();
-
-    /// Выводим userId в консоль
     qDebug() << "Выбранный userId:" << selectedUserId;
 
     /// Подгрузить сообщения
     /// Для этого необходимо написать прото файл с запросом на получение всех сообщений с выбранным пользователем
+    QByteArray data = Serializer::serializeGetChatHistoryReq(m_userId, selectedUserId);
+    emit signalSendGetChatHistoryRequest(data, requestType);
 }
 
 void MainWindow::slotGetDefaultDataResponseReceived(const QByteArray &data)

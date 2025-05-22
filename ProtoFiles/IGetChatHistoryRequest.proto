@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message IGetChatHistoryRequest {
+    int32 sender_id = 1;
+    int32 interlocutor_id = 2;
+}

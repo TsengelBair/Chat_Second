@@ -25,6 +25,7 @@ public:
 signals:
     void signalSendGetDefaultDataRequest(QByteArray &data, RequestType &requestType);
     void singalSendSearchUsersRequest(QByteArray &data, RequestType &requestType);
+    void signalSendGetChatHistoryRequest(QByteArray &data, RequestType &requestType);
 
 public slots:
     void slotGetDefaultDataResponseReceived(const QByteArray &data);
